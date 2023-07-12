@@ -19,6 +19,10 @@ Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
 
-# entensions
+# Extensions
 
 I'm working on writing extensions, fixing bugs and make the optimize the source for a better source handling as developer.
+
+# License
+
+Just use this source code unter the terms of the Linux licenses, as known. The additional extensions are also under GPL.
