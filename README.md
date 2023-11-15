@@ -26,3 +26,7 @@ I'm working on writing extensions, fixing bugs and make the optimize the source 
 # License
 
 Just use this source code unter the terms of the Linux licenses, as known. The additional extensions are also under GPL.
+
+# Linux kernel compilation dependencies
+
+Maybe there are a few developers wondering why the kernel searches for headers like `gelf.h` or `openssl/opensslv.h`. For this you must install on Linux the packages `libelf-dev` and `libssl-dev` or similar on you linux distro. Then all these compilation errors disapear.
