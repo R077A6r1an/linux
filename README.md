@@ -21,7 +21,17 @@ the problems which may result by upgrading your kernel.
 
 # Extensions
 
-I'm working on writing extensions, fixing bugs and make the optimize the source for a better source handling as developer.
+I'm working on writing extensions, fixing bugs and make the optimize the source for a better source handling as developer. A few additional commands are:
+
+## dependency installing
+
+Someone not knowing from where comes the header `<gelf.h>` or `<openssl/opensslv.h>` or similar, type `make dep_install` to install all required dependencies. If you're not using apt, then search instead for `libelf-dev` and `libssl-dev` or on other distros they may be `libssl-devel` and `libelf-devel`.
+
+## Kernel installing
+
+To install the kernel and modules together, type `make res_install` to install them all to the new directory `_install`, which can be used as root directory. Note that there will only be installed the kernel and the modules. In the skeleton you can then add a userland via busybox or similar.
+
+To remove the `_install` directory, type `make res_cleaning`.
 
 # License
 

@@ -1648,6 +1648,12 @@ help:
 		printf "  %-16s - Show %s-specific targets\\n" help-$(b) $(b);) \
 		printf "  %-16s - Show all of the above\\n" help-boards; \
 		echo '')
+	
+	@echo  ''
+	@echo  'LxEXT extended targets:'
+	@echo  '  dep_install            - Install all dependencies (for debian based distros)'
+	@echo  '  res_install            - install all outputs of the kernel build into _install'
+	@echo  '  res_cleaning           - Clean the result files installed at _install'
 
 	@echo  '  make V=n   [targets] 1: verbose build'
 	@echo  '                       2: give reason for rebuild of target'
@@ -1916,6 +1922,8 @@ $(clean-dirs):
 	$(Q)$(MAKE) $(clean)=$(patsubst _clean_%,%,$@)
 
 clean: $(clean-dirs)
+	@rm -r -f _install
+	@echo ' CLEAN   _install'
 	$(call cmd,rmfiles)
 	@find $(or $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
 		\( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -name '.*.cmd' \
@@ -2047,6 +2055,35 @@ endif # need-sub-make
 
 PHONY += FORCE
 FORCE:
+
+# ----------------------------------------------
+# The LxEXT extension targets for linux
+
+dep_install:
+	sudo apt-get install -y libelf-dev libssl-dev
+
+PHONY += dep_install
+.SILENT: dep_install
+
+res_install:
+	if [ -d _install ]; then \
+	echo ""; \
+	else \
+	mkdir _install; \
+	fi
+	cd _install; rm -r -f $(shell ls _install);
+	mkdir _install/boot
+	$(MAKE)	-s INSTALL_MOD_PATH="_install" modules_install
+	cp $(shell make -s image_name) _install/boot/$(shell basename $(shell make -s image_name))
+
+PHONY += res_install
+.SILENT: res_install
+
+res_cleaning:
+	rm -r -f _install
+
+PHONY += res_cleaning
+.SILENT: res_cleaning
 
 # Declare the contents of the PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
